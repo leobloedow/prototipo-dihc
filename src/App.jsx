@@ -29,6 +29,7 @@ const allProducts = [
     id: 1,
     name: "Chave de Fenda Isolada",
     price: 25,
+    oldPrice: 35, // desconto
     image: "https://picsum.photos/seed/screwdriver/400/400",
     rating: 4.6,
     category: "Ferramentas",
@@ -53,6 +54,7 @@ const allProducts = [
     id: 3,
     name: "Alicate Universal 8''",
     price: 28,
+    oldPrice: 38, // desconto
     image: "https://picsum.photos/seed/pliers/400/400",
     rating: 4.9,
     category: "Ferramentas",
@@ -78,6 +80,7 @@ const allProducts = [
     id: 5,
     name: "Disjuntor Monopolar 20A",
     price: 15,
+    oldPrice: 22, // desconto
     image: "https://picsum.photos/seed/breaker/400/400",
     rating: 4.9,
     category: "Materiais Elétricos",
@@ -115,6 +118,7 @@ const allProducts = [
     id: 8,
     name: "Lâmpada LED Bulbo 9W",
     price: 8,
+    oldPrice: 12, // desconto
     image: "https://picsum.photos/seed/bulb/400/400",
     rating: 4.9,
     category: "Iluminação",
@@ -808,8 +812,14 @@ const Carousel = ({ banners, navigateTo }) => {
 const ProductCard = ({ product, onProductClick }) => (
   <div
     onClick={() => onProductClick(product)}
-    className="bg-white rounded-lg shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+    className="bg-white rounded-lg shadow-md overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer relative"
   >
+    {/* Em promoção badge */}
+    {product.oldPrice && product.oldPrice > product.price && (
+      <span className="absolute top-3 left-3 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded z-10 shadow">
+        Em promoção
+      </span>
+    )}
     <div className="w-full h-48 bg-gray-200">
       <img
         src={product.image}
@@ -826,16 +836,26 @@ const ProductCard = ({ product, onProductClick }) => (
           {[...Array(5)].map((_, i) => (
             <Star
               key={i}
-              size={16}
+              size={12}
               fill={i < Math.floor(product.rating) ? "currentColor" : "none"}
             />
           ))}
         </div>
         <span className="text-xs text-gray-500 ml-2">({product.rating})</span>
       </div>
-      <p className="text-lg font-bold text-gray-900">
-        R$ {product.price.toFixed(2)}
-      </p>
+      <div className="flex items-end gap-2">
+        <p className="text-lg font-bold text-gray-900">
+          R$ {product.price.toFixed(2)}
+        </p>
+        {product.oldPrice && product.oldPrice > product.price && (
+          <span
+            className="text-xs text-gray-500 line-through font-semibold ml-1"
+            style={{ fontSize: "0.95rem" }}
+          >
+            De: R$ {product.oldPrice.toFixed(2)}
+          </span>
+        )}
+      </div>
       <p className="text-xs text-gray-500 mt-1">{product.disponibilidade}</p>
     </div>
   </div>
@@ -1182,9 +1202,20 @@ const ProductDetailPage = ({ product, handleAddToCart, handleBuyNow }) => (
               ({product.rating} de 5)
             </span>
           </div>
-          <p className="text-4xl font-bold text-blue-600 mb-6">
-            R$ {product.price.toFixed(2)}
-          </p>
+          {/* PREÇO COM DESCONTO */}
+          <div className="flex items-end gap-3 mb-6">
+            <p className="text-4xl font-bold text-blue-600">
+              R$ {product.price.toFixed(2)}
+            </p>
+            {product.oldPrice && product.oldPrice > product.price && (
+              <span
+                className="text-lg text-gray-500 line-through font-semibold ml-2"
+                style={{ fontSize: "1.5rem" }}
+              >
+                De: R$ {product.oldPrice.toFixed(2)}
+              </span>
+            )}
+          </div>
           <p className="text-gray-700 mb-6">{product.description}</p>
           <div className="flex flex-col sm:flex-row gap-4">
             <button
