@@ -897,6 +897,32 @@ const FilterBar = ({ filters, setFilters }) => {
           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
         />
       </div>
+      {/* Preço mínimo */}
+      <input
+        type="number"
+        min="0"
+        value={filters.minPrice || ""}
+        onChange={e => setFilters({ ...filters, minPrice: Number(e.target.value) })}
+        placeholder="Preço mínimo"
+        className="input mt-2"
+      />
+      {/* Ordenação */}
+      <div className="mt-4">
+        <label className="text-sm font-semibold text-gray-600 block mb-1">
+          Ordenar por
+        </label>
+        <select
+          value={filters.sortBy || ""}
+          onChange={e => setFilters({ ...filters, sortBy: e.target.value })}
+          className="input"
+        >
+          <option value="">Ordenar por</option>
+          <option value="price-asc">Menor preço</option>
+          <option value="price-desc">Maior preço</option>
+          <option value="rating-desc">Melhor avaliação</option>
+          <option value="name-asc">Nome (A-Z)</option>
+        </select>
+      </div>
     </div>
   );
 };
@@ -971,6 +997,23 @@ const SearchResultsPage = ({
     // Avaliação mínima
     if (filters.minRating) {
       filtered = filtered.filter((p) => p.rating >= filters.minRating);
+    }
+
+    // Ordenação
+    if (filters.sortBy) {
+      const [key, order] = filters.sortBy.split("-");
+      filtered = filtered.sort((a, b) => {
+        if (key === "price") {
+          return order === "asc" ? a.price - b.price : b.price - a.price;
+        } else if (key === "rating") {
+          return order === "asc" ? a.rating - b.rating : b.rating - a.rating;
+        } else if (key === "name") {
+          return order === "asc"
+            ? a.name.localeCompare(b.name)
+            : b.name.localeCompare(a.name);
+        }
+        return 0;
+      });
     }
 
     return filtered;
