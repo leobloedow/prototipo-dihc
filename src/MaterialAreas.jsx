@@ -74,7 +74,7 @@ export default function MaterialAreas({ onAreaClick }) {
       <div className="relative">
         {/* Left Arrow */}
         <button
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow p-1 rounded-full hover:bg-blue-100 transition"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow p-1 rounded-full hover:bg-blue-100 transition opacity-50 hover:opacity-90"
           style={{ display: "flex" }}
           onClick={() => scroll("left")}
           aria-label="Scroll left"
@@ -101,7 +101,7 @@ export default function MaterialAreas({ onAreaClick }) {
         </div>
         {/* Right Arrow */}
         <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow p-1 rounded-full hover:bg-blue-100 transition"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow p-1 rounded-full hover:bg-blue-100 transition opacity-50 hover:opacity-90"
           style={{ display: "flex" }}
           onClick={() => scroll("right")}
           aria-label="Scroll right"

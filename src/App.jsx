@@ -715,28 +715,18 @@ const Carousel = ({ banners, navigateTo }) => {
         ))}
       </div>
       <button
-        onClick={
-          goToPrevious
-        }
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
+        onClick={goToPrevious}
+        className="absolute left-4 top-3/4 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 opacity-50 hover:opacity-90 transition"
+        style={{ zIndex: 2 }}
       >
-        <ChevronLeft
-          size={
-            24
-          }
-        />
+        <ChevronLeft size={24} />
       </button>
       <button
-        onClick={
-          goToNext
-        }
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
+        onClick={goToNext}
+        className="absolute right-4 top-3/4 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 opacity-50 hover:opacity-90 transition"
+        style={{ zIndex: 2 }}
       >
-        <ChevronRight
-          size={
-            24
-          }
-        />
+        <ChevronRight size={24} />
       </button>
     </div>
   );
