@@ -629,117 +629,119 @@ const Header = ({ navigateTo, cart, handleProtectedAction }) => {
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex justify-between items-center gap-4">
-          {/* Logo - hide on mobile search */}
+      <div className="container mx-auto px-2 py-2">
+        <div className="flex items-center justify-between gap-2">
+          {/* Logo - always left, hide when search is open */}
           {!mobileSearchOpen && (
             <button
               onClick={() => navigateTo("home")}
-              className="flex items-center gap-2 text-2xl font-bold text-blue-600 flex-shrink-0 transition duration-150 hover:scale-105 hover:text-blue-800 active:scale-95 focus:outline-none"
+              className="flex items-center gap-1 text-lg font-bold text-blue-600 flex-shrink-0 transition duration-150 hover:scale-105 hover:text-blue-800 active:scale-95 focus:outline-none"
               style={{ outline: "none" }}
             >
-              <Bolt className="transition duration-150 group-hover:rotate-12" />
+              <Bolt className="transition duration-150 group-hover:rotate-12" size={22} />
               L.S. Rodrigues
             </button>
           )}
 
-          {/* Desktop search input */}
-          <div className="flex-1 max-w-xl mx-4 hidden md:block relative">
+          {/* Search bar (mobile and desktop) - full width and only it + magnifier when search is open */}
+          {mobileSearchOpen ? (
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                navigateTo(`searchResults`, {
-                  searchTerm: e.target.elements.search.value,
+                setMobileSearchOpen(false);
+                navigateTo("searchResults", {
+                  searchTerm: e.target.elements.mobileSearch.value,
                 });
               }}
-              className="relative"
+              className="flex flex-1 w-full"
             >
               <input
-                name="search"
+                name="mobileSearch"
+                autoFocus
                 type="text"
                 placeholder="Buscar produtos..."
-                className="w-full bg-gray-100 border border-gray-200 rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 bg-gray-100 border border-gray-200 rounded-full py-1 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{ height: 32 }}
               />
               <button
-                type="submit"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600"
+                type="button"
+                className="ml-1 text-gray-400 hover:text-blue-600"
+                onClick={() => setMobileSearchOpen(false)}
+                aria-label="Fechar busca"
               >
-                <Search size={20} />
+                <X size={18} />
               </button>
-            </form>
-          </div>
-
-          {/* Mobile search icon or expanded search */}
-          <div className="flex-1 flex justify-end md:hidden">
-            {mobileSearchOpen ? (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setMobileSearchOpen(false);
-                  navigateTo("searchResults", {
-                    searchTerm: e.target.elements.mobileSearch.value,
-                  });
-                }}
-                className="flex w-full"
-              >
-                <input
-                  name="mobileSearch"
-                  autoFocus
-                  type="text"
-                  placeholder="Buscar produtos..."
-                  className="w-full bg-gray-100 border border-gray-200 rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  type="button"
-                  className="ml-2 text-gray-400 hover:text-blue-600"
-                  onClick={() => setMobileSearchOpen(false)}
-                  aria-label="Fechar busca"
-                >
-                  <X size={24} />
-                </button>
-                <button
-                  type="submit"
-                  className="ml-2 text-gray-600 hover:text-blue-600"
-                  aria-label="Buscar"
-                >
-                  <Search size={24} />
-                </button>
-              </form>
-            ) : (
               <button
-                className="block md:hidden text-gray-600 hover:text-blue-600"
-                onClick={() => setMobileSearchOpen(true)}
+                type="submit"
+                className="ml-1 text-gray-600 hover:text-blue-600"
                 aria-label="Buscar"
               >
-                <Search size={24} />
+                <Search size={18} />
               </button>
-            )}
-          </div>
+            </form>
+          ) : (
+            <>
+              {/* Desktop search input */}
+              <div className="hidden md:block relative w-64 ml-auto">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    navigateTo(`searchResults`, {
+                      searchTerm: e.target.elements.search.value,
+                    });
+                  }}
+                  className="relative"
+                >
+                  <input
+                    name="search"
+                    type="text"
+                    placeholder="Buscar produtos..."
+                    className="w-full bg-gray-100 border border-gray-200 rounded-full py-1 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style={{ height: 32 }}
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600"
+                  >
+                    <Search size={18} />
+                  </button>
+                </form>
+              </div>
 
-          {/* Desktop nav */}
-          {!mobileSearchOpen && (
-            <nav className="hidden md:flex items-center space-x-6">
-              <button
-                onClick={() => handleProtectedAction("profile")}
-                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors focus:outline-none active:scale-95 hover:scale-110"
-                style={{ outline: "none" }}
-              >
-                <User size={24} className="transition duration-150" />
-                <span className="ml-2">Perfil</span>
-              </button>
-              <button
-                onClick={() => handleProtectedAction("cart")}
-                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors relative focus:outline-none active:scale-95 hover:scale-110"
-                style={{ outline: "none" }}
-              >
-                <ShoppingCart size={24} className="transition duration-150" />
-                {cart.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {cart.length}
-                  </span>
-                )}
-              </button>
-            </nav>
+              {/* Mobile search icon */}
+              <div className="md:hidden flex items-center ml-auto">
+                <button
+                  className="text-gray-600 hover:text-blue-600"
+                  onClick={() => setMobileSearchOpen(true)}
+                  aria-label="Buscar"
+                >
+                  <Search size={20} />
+                </button>
+              </div>
+
+              {/* User and Cart icons (always right, hide when search is open) */}
+              <div className="flex items-center gap-2 ml-2">
+                <button
+                  onClick={() => handleProtectedAction("profile")}
+                  className="text-gray-600 hover:text-blue-600 transition-colors focus:outline-none active:scale-95"
+                  style={{ outline: "none" }}
+                >
+                  <User size={20} />
+                </button>
+                <button
+                  onClick={() => handleProtectedAction("cart")}
+                  className="text-gray-600 hover:text-blue-600 transition-colors relative focus:outline-none active:scale-95"
+                  style={{ outline: "none" }}
+                >
+                  <ShoppingCart size={20} />
+                  {cart.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center">
+                      {cart.length}
+                    </span>
+                  )}
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>
