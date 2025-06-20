@@ -552,61 +552,123 @@ const BackButton = ({ onClick }) => (
   </button>
 );
 
-const Header = ({ navigateTo, cart, handleProtectedAction }) => (
-  <header className="bg-white shadow-md sticky top-0 z-50">
-    <div className="container mx-auto px-4 py-3">
-      <div className="flex justify-between items-center gap-4">
-        <button
-          onClick={() => navigateTo("home")}
-          className="flex items-center gap-2 text-2xl font-bold text-blue-600 flex-shrink-0"
-        >
-          <Bolt /> L.S. Rodrigues
-        </button>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            navigateTo(`searchResults`, {
-              searchTerm: e.target.elements.search.value,
-            });
-          }}
-          className="flex-1 max-w-xl mx-4 hidden md:block relative"
-        >
-          <input
-            name="search"
-            type="text"
-            placeholder="Buscar produtos..."
-            className="w-full bg-gray-100 border border-gray-200 rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600"
-          >
-            <Search size={20} />
-          </button>
-        </form>
-        <nav className="hidden md:flex items-center space-x-6">
-          <button
-            onClick={() => handleProtectedAction("profile")}
-            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
-          >
-            <User size={24} /> <span className="ml-2">Perfil</span>
-          </button>
-          <button
-            onClick={() => handleProtectedAction("cart")}
-            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors relative"
-          >
-            <ShoppingCart size={24} />
-            {cart.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {cart.length}
-              </span>
+const Header = ({ navigateTo, cart, handleProtectedAction }) => {
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+
+  return (
+    <header className="bg-white shadow-md sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex justify-between items-center gap-4">
+          {/* Logo - hide on mobile search */}
+          {!mobileSearchOpen && (
+            <button
+              onClick={() => navigateTo("home")}
+              className="flex items-center gap-2 text-2xl font-bold text-blue-600 flex-shrink-0"
+            >
+              <Bolt /> L.S. Rodrigues
+            </button>
+          )}
+
+          {/* Desktop search input */}
+          <div className="flex-1 max-w-xl mx-4 hidden md:block relative">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                navigateTo(`searchResults`, {
+                  searchTerm: e.target.elements.search.value,
+                });
+              }}
+              className="relative"
+            >
+              <input
+                name="search"
+                type="text"
+                placeholder="Buscar produtos..."
+                className="w-full bg-gray-100 border border-gray-200 rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="submit"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600"
+              >
+                <Search size={20} />
+              </button>
+            </form>
+          </div>
+
+          {/* Mobile search icon or expanded search */}
+          <div className="flex-1 flex justify-end md:hidden">
+            {mobileSearchOpen ? (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setMobileSearchOpen(false);
+                  navigateTo("searchResults", {
+                    searchTerm: e.target.elements.mobileSearch.value,
+                  });
+                }}
+                className="flex w-full"
+              >
+                <input
+                  name="mobileSearch"
+                  autoFocus
+                  type="text"
+                  placeholder="Buscar produtos..."
+                  className="w-full bg-gray-100 border border-gray-200 rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="button"
+                  className="ml-2 text-gray-400 hover:text-blue-600"
+                  onClick={() => setMobileSearchOpen(false)}
+                  aria-label="Fechar busca"
+                >
+                  <X size={24} />
+                </button>
+                <button
+                  type="submit"
+                  className="ml-2 text-gray-600 hover:text-blue-600"
+                  aria-label="Buscar"
+                >
+                  <Search size={24} />
+                </button>
+              </form>
+            ) : (
+              <button
+                className="block md:hidden text-gray-600 hover:text-blue-600"
+                onClick={() => setMobileSearchOpen(true)}
+                aria-label="Buscar"
+              >
+                <Search size={24} />
+              </button>
             )}
-          </button>
-        </nav>
+          </div>
+
+          {/* Desktop nav */}
+          {!mobileSearchOpen && (
+            <nav className="hidden md:flex items-center space-x-6">
+              <button
+                onClick={() => handleProtectedAction("profile")}
+                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <User size={24} /> <span className="ml-2">Perfil</span>
+              </button>
+              <button
+                onClick={() => handleProtectedAction("cart")}
+                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors relative"
+              >
+                <ShoppingCart size={24} />
+                {cart.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cart.length}
+                  </span>
+                )}
+              </button>
+            </nav>
+          )}
+        </div>
       </div>
-    </div>
-  </header>
-);
+    </header>
+  );
+};
 
 const Carousel = ({ banners, navigateTo }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -791,13 +853,20 @@ const SearchResultsPage = ({
   }, [initialSearchTerm, initialCategory]);
 
   const filteredProducts = useMemo(() => {
-    if (!filters.searchTerm) return [];
-    return allProducts.filter(
-      (p) =>
-        p.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) &&
-        (filters.category === "Todos" || p.category === filters.category) &&
-        p.price <= filters.maxPrice
-    );
+    // Se há categoria selecionada (diferente de "Todos"), filtra por categoria
+    let filtered = allProducts;
+    if (filters.category && filters.category !== "Todos") {
+      filtered = filtered.filter((p) => p.category === filters.category);
+    }
+    // Se há termo de busca, filtra também pelo nome
+    if (filters.searchTerm) {
+      filtered = filtered.filter((p) =>
+        p.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
+      );
+    }
+    // Filtra por preço
+    filtered = filtered.filter((p) => p.price <= filters.maxPrice);
+    return filtered;
   }, [filters]);
 
   return (
