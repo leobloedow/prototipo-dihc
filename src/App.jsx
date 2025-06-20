@@ -17,6 +17,9 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import MaterialAreas from "./MaterialAreas";
+import imgFerramentas from "./assets/gear.jpg";
+import imgIluminacao from "./assets/lampadas.jpg";
+import imgDisjuntores from "./assets/disjuntores.png";
 
 // --- Dados Mockados com Imagens do Picsum Photos ---
 const allProducts = [
@@ -521,21 +524,21 @@ const banners = [
     id: 1,
     title: "Oferta em Ferramentas",
     subtitle: "Até 30% de desconto!",
-    image: "https://picsum.photos/seed/tools/1200/400",
+    image: imgFerramentas,
     category: "Ferramentas",
   },
   {
     id: 2,
     title: "Tudo em Iluminação",
     subtitle: "Renove sua casa com nossas lâmpadas LED",
-    image: "https://picsum.photos/seed/lighting/1200/400",
+    image: imgIluminacao,
     category: "Iluminação",
   },
   {
     id: 3,
     title: "Segurança em Primeiro Lugar",
     subtitle: "Confira nossa linha de disjuntores",
-    image: "https://picsum.photos/seed/electrical/1200/400",
+    image: imgDisjuntores,
     category: "Disjuntores",
   },
 ];
@@ -843,18 +846,19 @@ const SearchResultsPage = ({
   }, [initialSearchTerm, initialCategory]);
 
   const filteredProducts = useMemo(() => {
-    // Se há categoria selecionada (diferente de "Todos"), filtra por categoria
     let filtered = allProducts;
     if (filters.category && filters.category !== "Todos") {
       filtered = filtered.filter((p) => p.category === filters.category);
     }
-    // Se há termo de busca, filtra também pelo nome
-    if (filters.searchTerm) {
+    // Só filtra pelo nome se o termo de busca for diferente da categoria
+    if (
+      filters.searchTerm &&
+      (!filters.category || filters.category === "Todos" || filters.searchTerm !== filters.category)
+    ) {
       filtered = filtered.filter((p) =>
         p.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
       );
     }
-    // Filtra por preço
     filtered = filtered.filter((p) => p.price <= filters.maxPrice);
     return filtered;
   }, [filters]);
