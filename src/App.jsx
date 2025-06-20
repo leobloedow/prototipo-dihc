@@ -590,9 +590,11 @@ const Header = ({ navigateTo, cart, handleProtectedAction }) => {
           {!mobileSearchOpen && (
             <button
               onClick={() => navigateTo("home")}
-              className="flex items-center gap-2 text-2xl font-bold text-blue-600 flex-shrink-0"
+              className="flex items-center gap-2 text-2xl font-bold text-blue-600 flex-shrink-0 transition duration-150 hover:scale-105 hover:text-blue-800 active:scale-95 focus:outline-none"
+              style={{ outline: "none" }}
             >
-              <Bolt /> L.S. Rodrigues
+              <Bolt className="transition duration-150 group-hover:rotate-12" />
+              L.S. Rodrigues
             </button>
           )}
 
@@ -674,15 +676,18 @@ const Header = ({ navigateTo, cart, handleProtectedAction }) => {
             <nav className="hidden md:flex items-center space-x-6">
               <button
                 onClick={() => handleProtectedAction("profile")}
-                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors focus:outline-none active:scale-95 hover:scale-110"
+                style={{ outline: "none" }}
               >
-                <User size={24} /> <span className="ml-2">Perfil</span>
+                <User size={24} className="transition duration-150" />
+                <span className="ml-2">Perfil</span>
               </button>
               <button
                 onClick={() => handleProtectedAction("cart")}
-                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors relative"
+                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors relative focus:outline-none active:scale-95 hover:scale-110"
+                style={{ outline: "none" }}
               >
-                <ShoppingCart size={24} />
+                <ShoppingCart size={24} className="transition duration-150" />
                 {cart.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                     {cart.length}
@@ -800,10 +805,24 @@ const FilterBar = ({ filters, setFilters }) => {
     ? allProducts.filter((p) => p.category === filters.category)
     : allProducts;
 
+  // Calcula o preço máximo real dos produtos filtrados
+  const dynamicMaxPrice =
+    filteredByCategory.length > 0
+      ? Math.max(...filteredByCategory.map((p) => p.price))
+      : 1000; // fallback
+
   // Opções únicas para cada filtro
   const brands = Array.from(new Set(filteredByCategory.map((p) => p.brand))).filter(Boolean);
   const voltages = Array.from(new Set(filteredByCategory.map((p) => p.voltage))).filter(Boolean);
   const ratings = [5, 4, 3, 2, 1];
+
+  useEffect(() => {
+    setFilters(f => ({
+      ...f,
+      maxPrice: dynamicMaxPrice
+    }));
+    // eslint-disable-next-line
+  }, [filters.category, dynamicMaxPrice]);
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mb-8">
@@ -815,7 +834,16 @@ const FilterBar = ({ filters, setFilters }) => {
           </label>
           <select
             value={filters.category}
-            onChange={(e) => setFilters({ ...filters, category: e.target.value, brand: "", voltage: "", minRating: "" })}
+            onChange={(e) =>
+              setFilters({
+                ...filters,
+                category: e.target.value,
+                brand: "",
+                voltage: "",
+                minRating: "",
+                searchTerm: "" // <-- Limpa o termo de busca ao trocar categoria
+              })
+            }
             className="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {categories.map((cat) => (
@@ -883,29 +911,36 @@ const FilterBar = ({ filters, setFilters }) => {
       {/* Preço */}
       <div className="mt-4">
         <label className="text-sm font-semibold text-gray-600 block mb-1">
-          Preço Máximo: R$ {filters.maxPrice}
+          Preço
         </label>
-        <input
-          type="range"
-          min="0"
-          max="200"
-          step="5"
-          value={filters.maxPrice}
-          onChange={(e) =>
-            setFilters({ ...filters, maxPrice: Number(e.target.value) })
-          }
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-        />
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            min="0"
+            max={filters.maxPrice ?? dynamicMaxPrice}
+            value={filters.minPrice ?? ""}
+            onChange={e => setFilters({ ...filters, minPrice: Number(e.target.value) })}
+            className="w-24 px-2 py-1 border border-gray-300 rounded-full text-center focus:ring-2 focus:ring-blue-500"
+            placeholder="Mín"
+          />
+          <span className="mx-2">à</span>
+          <input
+            type="number"
+            min={filters.minPrice ?? 0}
+            max={dynamicMaxPrice}
+            value={filters.maxPrice ?? ""}
+            onChange={e => setFilters({ ...filters, maxPrice: e.target.value === "" ? undefined : Number(e.target.value) })}
+            className="w-24 px-2 py-1 border border-gray-300 rounded-full text-center focus:ring-2 focus:ring-blue-500"
+            placeholder={`Máx (${dynamicMaxPrice})`}
+          />
+        </div>
+        <div className="flex justify-between text-xs text-gray-500 mt-1">
+          <span>R$ {filters.minPrice ?? 0}</span>
+          <span>
+            R$ {filters.maxPrice !== undefined && filters.maxPrice !== "" ? filters.maxPrice : dynamicMaxPrice} e mais
+          </span>
+        </div>
       </div>
-      {/* Preço mínimo */}
-      <input
-        type="number"
-        min="0"
-        value={filters.minPrice || ""}
-        onChange={e => setFilters({ ...filters, minPrice: Number(e.target.value) })}
-        placeholder="Preço mínimo"
-        className="input mt-2"
-      />
       {/* Ordenação */}
       <div className="mt-4">
         <label className="text-sm font-semibold text-gray-600 block mb-1">
@@ -1023,7 +1058,7 @@ const SearchResultsPage = ({
     <div className="bg-gray-50 min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">
-          Resultados para "{filters.searchTerm}"
+          Resultados para "{filters.searchTerm || (filters.category !== "Todos" ? filters.category : "")}"
         </h1>
         <FilterBar filters={filters} setFilters={setFilters} />
         {filteredProducts.length > 0 ? (
