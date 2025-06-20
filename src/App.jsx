@@ -16,59 +16,13 @@ import {
   LogOut,
   ArrowLeft,
 } from "lucide-react";
+import MaterialAreas from "./MaterialAreas";
 
 // --- Dados Mockados com Imagens do Picsum Photos ---
 const allProducts = [
+  // Ferramentas
   {
     id: 1,
-    name: "Cabo Flexível 2.5mm 100m",
-    price: 180,
-    image: "https://picsum.photos/seed/cable/400/400",
-    rating: 4.8,
-    category: "Fios e Cabos",
-    brand: "Marca A",
-    voltage: "750V",
-    description:
-      "Cabo flexível para instalações elétricas residenciais e comerciais. Rolo com 100 metros.",
-  },
-  {
-    id: 2,
-    name: "Disjuntor Monopolar 20A",
-    price: 15,
-    image: "https://picsum.photos/seed/breaker/400/400",
-    rating: 4.9,
-    category: "Disjuntores",
-    brand: "Marca B",
-    voltage: "127/220V",
-    description:
-      "Disjuntor termomagnético para proteção de circuitos elétricos.",
-  },
-  {
-    id: 3,
-    name: "Tomada Dupla 10A",
-    price: 12,
-    image: "https://picsum.photos/seed/outlet/400/400",
-    rating: 4.7,
-    category: "Tomadas",
-    brand: "Marca C",
-    voltage: "250V",
-    description:
-      "Tomada dupla padrão brasileiro, ideal para qualquer ambiente.",
-  },
-  {
-    id: 4,
-    name: "Lâmpada LED Bulbo 9W",
-    price: 8,
-    image: "https://picsum.photos/seed/bulb/400/400",
-    rating: 4.9,
-    category: "Iluminação",
-    brand: "Marca A",
-    voltage: "Bivolt",
-    description:
-      "Lâmpada LED de baixo consumo e alta durabilidade. Luz branca.",
-  },
-  {
-    id: 5,
     name: "Chave de Fenda Isolada",
     price: 25,
     image: "https://picsum.photos/seed/screwdriver/400/400",
@@ -76,33 +30,89 @@ const allProducts = [
     category: "Ferramentas",
     brand: "Marca D",
     voltage: "1000V",
-    description:
-      "Chave de fenda com isolamento para trabalhos elétricos seguros.",
+    description: "Chave de fenda com isolamento para trabalhos elétricos seguros.",
+  },
+  {
+    id: 2,
+    name: "Martelo Unha 27mm",
+    price: 32,
+    image: "https://picsum.photos/seed/hammer/400/400",
+    rating: 4.8,
+    category: "Ferramentas",
+    brand: "Marca E",
+    voltage: "-",
+    description: "Martelo de aço com cabo emborrachado para uso geral.",
+  },
+  {
+    id: 3,
+    name: "Alicate Universal 8''",
+    price: 28,
+    image: "https://picsum.photos/seed/pliers/400/400",
+    rating: 4.9,
+    category: "Ferramentas",
+    brand: "Marca G",
+    voltage: "-",
+    description: "Alicate universal para cortes e apertos em geral.",
+  },
+  // Materiais Elétricos
+  {
+    id: 4,
+    name: "Cabo Flexível 2.5mm 100m",
+    price: 180,
+    image: "https://picsum.photos/seed/cable/400/400",
+    rating: 4.8,
+    category: "Materiais Elétricos",
+    brand: "Marca A",
+    voltage: "750V",
+    description: "Cabo flexível para instalações elétricas residenciais e comerciais. Rolo com 100 metros.",
+  },
+  {
+    id: 5,
+    name: "Disjuntor Monopolar 20A",
+    price: 15,
+    image: "https://picsum.photos/seed/breaker/400/400",
+    rating: 4.9,
+    category: "Materiais Elétricos",
+    brand: "Marca B",
+    voltage: "127/220V",
+    description: "Disjuntor termomagnético para proteção de circuitos elétricos.",
   },
   {
     id: 6,
+    name: "Tomada Dupla 10A",
+    price: 12,
+    image: "https://picsum.photos/seed/outlet/400/400",
+    rating: 4.7,
+    category: "Materiais Elétricos",
+    brand: "Marca C",
+    voltage: "250V",
+    description: "Tomada dupla padrão brasileiro, ideal para qualquer ambiente.",
+  },
+  {
+    id: 7,
     name: "Fita Isolante 20m",
     price: 5,
     image: "https://picsum.photos/seed/tape/400/400",
     rating: 4.5,
-    category: "Fios e Cabos",
+    category: "Materiais Elétricos",
     brand: "Marca B",
     voltage: "750V",
     description: "Fita isolante de alta qualidade para emendas e isolamentos.",
   },
-  {
-    id: 7,
-    name: "Interruptor Simples",
-    price: 9,
-    image: "https://picsum.photos/seed/switch/400/400",
-    rating: 4.7,
-    category: "Tomadas",
-    brand: "Marca C",
-    voltage: "250V",
-    description: "Interruptor de uma seção para acionamento de iluminação.",
-  },
+  // Iluminação
   {
     id: 8,
+    name: "Lâmpada LED Bulbo 9W",
+    price: 8,
+    image: "https://picsum.photos/seed/bulb/400/400",
+    rating: 4.9,
+    category: "Iluminação",
+    brand: "Marca A",
+    voltage: "Bivolt",
+    description: "Lâmpada LED de baixo consumo e alta durabilidade. Luz branca.",
+  },
+  {
+    id: 9,
     name: "Painel LED de Embutir 18W",
     price: 45,
     image: "https://picsum.photos/seed/panel/400/400",
@@ -110,8 +120,375 @@ const allProducts = [
     category: "Iluminação",
     brand: "Marca A",
     voltage: "Bivolt",
-    description:
-      "Painel de LED quadrado para forros de gesso. Design moderno e eficiente.",
+    description: "Painel de LED quadrado para forros de gesso. Design moderno e eficiente.",
+  },
+  // Ferramentas de Medição
+  {
+    id: 10,
+    name: "Trena 5m",
+    price: 18,
+    image: "https://picsum.photos/seed/tape-measure/400/400",
+    rating: 4.7,
+    category: "Ferramentas de Medição",
+    brand: "Marca F",
+    voltage: "-",
+    description: "Trena retrátil de 5 metros com trava automática.",
+  },
+  // Materiais Hidráulicos
+  {
+    id: 11,
+    name: "Torneira PVC para Jardim",
+    price: 14,
+    image: "https://picsum.photos/seed/tap/400/400",
+    rating: 4.6,
+    category: "Materiais Hidráulicos",
+    brand: "Marca H",
+    voltage: "-",
+    description: "Torneira de PVC resistente para uso externo.",
+  },
+  // Tubos e Conexões
+  {
+    id: 12,
+    name: "Joelho 90º 25mm",
+    price: 2,
+    image: "https://picsum.photos/seed/elbow/400/400",
+    rating: 4.8,
+    category: "Tubos e Conexões",
+    brand: "Marca I",
+    voltage: "-",
+    description: "Joelho de PVC para conexões hidráulicas.",
+  },
+  // Caixas d'Água
+  {
+    id: 13,
+    name: "Caixa d'Água 500L",
+    price: 320,
+    image: "https://picsum.photos/seed/watertank/400/400",
+    rating: 4.9,
+    category: "Caixas d'Água",
+    brand: "Marca J",
+    voltage: "-",
+    description: "Caixa d'água em polietileno, leve e resistente.",
+  },
+  // Tijolos e Blocos
+  {
+    id: 14,
+    name: "Tijolo Cerâmico 9 Furos",
+    price: 1.2,
+    image: "https://picsum.photos/seed/brick/400/400",
+    rating: 4.7,
+    category: "Tijolos e Blocos",
+    brand: "Marca K",
+    voltage: "-",
+    description: "Tijolo cerâmico para alvenaria estrutural.",
+  },
+  {
+    id: 15,
+    name: "Bloco de Concreto 14x19x39cm",
+    price: 3.5,
+    image: "https://picsum.photos/seed/concreteblock/400/400",
+    rating: 4.8,
+    category: "Tijolos e Blocos",
+    brand: "Marca L",
+    voltage: "-",
+    description: "Bloco de concreto para construção de paredes.",
+  },
+  // Cimento e Argamassa
+  {
+    id: 16,
+    name: "Cimento CP II 50kg",
+    price: 38,
+    image: "https://picsum.photos/seed/cement/400/400",
+    rating: 4.9,
+    category: "Cimento e Argamassa",
+    brand: "Marca M",
+    voltage: "-",
+    description: "Saco de cimento para uso geral em obras.",
+  },
+  // Argamassa e Rejunte
+  {
+    id: 17,
+    name: "Argamassa AC-1 20kg",
+    price: 22,
+    image: "https://picsum.photos/seed/mortar/400/400",
+    rating: 4.7,
+    category: "Argamassa e Rejunte",
+    brand: "Marca N",
+    voltage: "-",
+    description: "Argamassa colante para assentamento de cerâmicas.",
+  },
+  {
+    id: 18,
+    name: "Rejunte Branco 1kg",
+    price: 10,
+    image: "https://picsum.photos/seed/grout/400/400",
+    rating: 4.7,
+    category: "Argamassa e Rejunte",
+    brand: "Marca U",
+    voltage: "-",
+    description: "Rejunte branco para assentamento de pisos e azulejos.",
+  },
+  // Areia, Pedra e Brita
+  {
+    id: 19,
+    name: "Areia Média Lavada 20kg",
+    price: 7,
+    image: "https://picsum.photos/seed/sand/400/400",
+    rating: 4.8,
+    category: "Areia, Pedra e Brita",
+    brand: "Marca O",
+    voltage: "-",
+    description: "Areia lavada para uso em concreto e argamassa.",
+  },
+  {
+    id: 20,
+    name: "Brita 1 Ensacada 20kg",
+    price: 8,
+    image: "https://picsum.photos/seed/gravel/400/400",
+    rating: 4.7,
+    category: "Areia, Pedra e Brita",
+    brand: "Marca P",
+    voltage: "-",
+    description: "Brita para preparo de concreto e drenagem.",
+  },
+  // Madeiras
+  {
+    id: 21,
+    name: "Viga de Madeira 5x15cm 3m",
+    price: 120,
+    image: "https://picsum.photos/seed/woodbeam/400/400",
+    rating: 4.8,
+    category: "Madeiras",
+    brand: "Marca MadeiraSul",
+    voltage: "-",
+    description: "Viga de madeira para estruturas de telhado.",
+  },
+  // Portas e Janelas
+  {
+    id: 22,
+    name: "Porta de Madeira Lisa",
+    price: 210,
+    image: "https://picsum.photos/seed/door/400/400",
+    rating: 4.8,
+    category: "Portas e Janelas",
+    brand: "Marca Q",
+    voltage: "-",
+    description: "Porta lisa de madeira para ambientes internos.",
+  },
+  {
+    id: 23,
+    name: "Janela de Alumínio 1,20x1,00m",
+    price: 350,
+    image: "https://picsum.photos/seed/window/400/400",
+    rating: 4.9,
+    category: "Portas e Janelas",
+    brand: "Marca R",
+    voltage: "-",
+    description: "Janela de correr em alumínio branco.",
+  },
+  // Tintas e Pintura
+  {
+    id: 24,
+    name: "Tinta Acrílica Fosca 18L",
+    price: 210,
+    image: "https://picsum.photos/seed/paint/400/400",
+    rating: 4.8,
+    category: "Tintas e Pintura",
+    brand: "Marca T",
+    voltage: "-",
+    description: "Tinta acrílica para paredes internas e externas.",
+  },
+  // Ferragens
+  {
+    id: 25,
+    name: "Dobradiça Aço 3''",
+    price: 6,
+    image: "https://picsum.photos/seed/hinge/400/400",
+    rating: 4.7,
+    category: "Ferragens",
+    brand: "Marca MetalFix",
+    voltage: "-",
+    description: "Dobradiça de aço para portas e janelas.",
+  },
+  // Telhas e Coberturas
+  {
+    id: 26,
+    name: "Telha Cerâmica Colonial",
+    price: 2.5,
+    image: "https://picsum.photos/seed/roof/400/400",
+    rating: 4.7,
+    category: "Telhas e Coberturas",
+    brand: "Marca S",
+    voltage: "-",
+    description: "Telha cerâmica para cobertura de casas.",
+  },
+  // Fios e Cabos
+  {
+    id: 27,
+    name: "Cabo de Aço 6mm 50m",
+    price: 220,
+    image: "https://picsum.photos/seed/steelcable/400/400",
+    rating: 4.8,
+    category: "Fios e Cabos",
+    brand: "Marca CabosBrasil",
+    voltage: "-",
+    description: "Cabo de aço galvanizado para uso estrutural.",
+  },
+  // Caixas de Passagem
+  {
+    id: 28,
+    name: "Caixa de Passagem 4x4",
+    price: 4,
+    image: "https://picsum.photos/seed/box/400/400",
+    rating: 4.7,
+    category: "Caixas de Passagem",
+    brand: "Marca Elétrica",
+    voltage: "-",
+    description: "Caixa de passagem para instalações elétricas.",
+  },
+  // Escadas
+  {
+    id: 29,
+    name: "Escada Alumínio 5 Degraus",
+    price: 180,
+    image: "https://picsum.photos/seed/ladder/400/400",
+    rating: 4.9,
+    category: "Escadas",
+    brand: "Marca W",
+    voltage: "-",
+    description: "Escada dobrável de alumínio para uso doméstico e profissional.",
+  },
+  // Andaimes
+  {
+    id: 30,
+    name: "Andaime Tubular 1,5m",
+    price: 420,
+    image: "https://picsum.photos/seed/scaffold/400/400",
+    rating: 4.8,
+    category: "Andaimes",
+    brand: "Marca Z",
+    voltage: "-",
+    description: "Andaime tubular para trabalhos em altura.",
+  },
+  // Grades e Alambrados
+  {
+    id: 31,
+    name: "Grade de Proteção Metálica",
+    price: 110,
+    image: "https://picsum.photos/seed/fence/400/400",
+    rating: 4.7,
+    category: "Grades e Alambrados",
+    brand: "Marca AA",
+    voltage: "-",
+    description: "Grade metálica para proteção de áreas externas.",
+  },
+  // Pisos e Revestimentos
+  {
+    id: 32,
+    name: "Piso Cerâmico 60x60cm",
+    price: 39,
+    image: "https://picsum.photos/seed/floor/400/400",
+    rating: 4.8,
+    category: "Pisos e Revestimentos",
+    brand: "Marca BB",
+    voltage: "-",
+    description: "Piso cerâmico para ambientes internos.",
+  },
+  // Forros e Drywall
+  {
+    id: 33,
+    name: "Forro de PVC Branco 6m",
+    price: 75,
+    image: "https://picsum.photos/seed/ceiling/400/400",
+    rating: 4.7,
+    category: "Forros e Drywall",
+    brand: "Marca CC",
+    voltage: "-",
+    description: "Forro de PVC para acabamento de tetos.",
+  },
+  // Acabamentos
+  {
+    id: 34,
+    name: "Espuma Expansiva 500ml",
+    price: 28,
+    image: "https://picsum.photos/seed/foam/400/400",
+    rating: 4.8,
+    category: "Acabamentos",
+    brand: "Marca DD",
+    voltage: "-",
+    description: "Espuma expansiva para vedação e fixação.",
+  },
+  // Fixadores
+  {
+    id: 35,
+    name: "Chave Inglesa 12''",
+    price: 38,
+    image: "https://picsum.photos/seed/wrench/400/400",
+    rating: 4.8,
+    category: "Fixadores",
+    brand: "Marca EE",
+    voltage: "-",
+    description: "Chave inglesa ajustável para aperto de porcas e parafusos.",
+  },
+  // Transporte e Carrinhos
+  {
+    id: 36,
+    name: "Carrinho de Mão Reforçado",
+    price: 230,
+    image: "https://picsum.photos/seed/wheelbarrow/400/400",
+    rating: 4.8,
+    category: "Transporte e Carrinhos",
+    brand: "Marca X",
+    voltage: "-",
+    description: "Carrinho de mão para transporte de materiais em obras.",
+  },
+  // Impermeabilizantes
+  {
+    id: 37,
+    name: "Impermeabilizante Líquido 18L",
+    price: 120,
+    image: "https://picsum.photos/seed/waterproof/400/400",
+    rating: 4.8,
+    category: "Impermeabilizantes",
+    brand: "Marca V",
+    voltage: "-",
+    description: "Impermeabilizante para lajes e paredes.",
+  },
+  // EPI (Segurança)
+  {
+    id: 38,
+    name: "EPI - Capacete de Segurança",
+    price: 35,
+    image: "https://picsum.photos/seed/helmet/400/400",
+    rating: 4.9,
+    category: "EPI (Segurança)",
+    brand: "Marca Y",
+    voltage: "-",
+    description: "Capacete de proteção para uso em obras.",
+  },
+  // Gás e Aquecimento
+  {
+    id: 39,
+    name: "Aquecedor a Gás 15L",
+    price: 950,
+    image: "https://picsum.photos/seed/gasheater/400/400",
+    rating: 4.7,
+    category: "Gás e Aquecimento",
+    brand: "Marca Thermo",
+    voltage: "Bivolt",
+    description: "Aquecedor de água a gás para residências.",
+  },
+  // Serra e Corte
+  {
+    id: 40,
+    name: "Disco de Corte Diamantado 110mm",
+    price: 22,
+    image: "https://picsum.photos/seed/cutdisc/400/400",
+    rating: 4.8,
+    category: "Serra e Corte",
+    brand: "Marca CorteMax",
+    voltage: "-",
+    description: "Disco diamantado para corte de pisos e azulejos.",
   },
 ];
 const categories = [
@@ -246,42 +623,58 @@ const Carousel = ({ banners, navigateTo }) => {
   };
 
   return (
-    <div className="relative w-full h-64 md:h-96 rounded-lg overflow-hidden shadow-lg mb-12 bg-gray-200">
+    <div className="relative w-full max-w-7xl mx-auto h-64 md:h-96 rounded-lg overflow-hidden shadow-lg mb-12 bg-gray-200">
       <div
         className="w-full h-full flex transition-transform ease-in-out duration-500"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+        }}
       >
         {banners.map((b) => (
           <div
             key={b.id}
             onClick={() => handleBannerClick(b)}
-            className="w-full h-full flex-shrink-0 relative cursor-pointer"
+            className="min-w-full h-full flex-shrink-0 relative cursor-pointer"
           >
             <img
               src={b.image}
               alt={b.title}
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white p-4">
               <h2 className="text-3xl md:text-5xl font-bold text-center">
                 {b.title}
               </h2>
-              <p className="mt-2 text-lg text-center">{b.subtitle}</p>
+              <p className="mt-2 text-lg text-center">
+                {b.subtitle}
+              </p>
             </div>
           </div>
         ))}
       </div>
       <button
-        onClick={goToPrevious}
+        onClick={
+          goToPrevious
+        }
         className="absolute top-1/2 left-4 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
       >
-        <ChevronLeft size={24} />
+        <ChevronLeft
+          size={
+            24
+          }
+        />
       </button>
       <button
-        onClick={goToNext}
+        onClick={
+          goToNext
+        }
         className="absolute top-1/2 right-4 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
       >
-        <ChevronRight size={24} />
+        <ChevronRight
+          size={
+            24
+          }
+        />
       </button>
     </div>
   );
@@ -364,6 +757,7 @@ const FilterBar = ({ filters, setFilters }) => (
 const HomePage = ({ onProductClick, navigateTo }) => (
   <div className="bg-gray-50">
     <div className="container mx-auto px-4 py-8">
+      <MaterialAreas onAreaClick={(area) => navigateTo("searchResults", { searchTerm: area, category: area })} />
       <Carousel banners={banners} navigateTo={navigateTo} />
       <h2 className="text-2xl font-bold text-gray-800 mb-4">
         Produtos em Destaque
@@ -667,11 +1061,10 @@ const ProfilePage = ({ navigateTo, userOrders, handleLogout, initialTab }) => {
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
-                    className={`flex items-center gap-3 p-3 rounded-md text-left transition-colors ${
-                      activeTab === item.id
+                    className={`flex items-center gap-3 p-3 rounded-md text-left transition-colors ${activeTab === item.id
                         ? "bg-blue-100 text-blue-700 font-semibold"
                         : "text-gray-600 hover:bg-gray-100"
-                    }`}
+                      }`}
                   >
                     <item.icon size={20} />
                     <span>{item.label}</span>
@@ -814,11 +1207,10 @@ const ProfileOrders = ({ navigateTo, userOrders }) => (
           </div>
           <div className="flex items-center w-full sm:w-auto">
             <span
-              className={`text-sm font-semibold px-3 py-1 rounded-full ${
-                order.status === "Entregue"
+              className={`text-sm font-semibold px-3 py-1 rounded-full ${order.status === "Entregue"
                   ? "bg-green-100 text-green-800"
                   : "bg-yellow-100 text-yellow-800"
-              }`}
+                }`}
             >
               {order.status}
             </span>
@@ -859,29 +1251,26 @@ const OrderTrackingPage = ({ order }) => {
               <React.Fragment key={step}>
                 <div className="flex flex-col items-center text-center w-24">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      index <= currentStep
+                    className={`w-10 h-10 rounded-full flex items-center justify-center ${index <= currentStep
                         ? "bg-blue-600 text-white"
                         : "bg-gray-200 text-gray-500"
-                    }`}
+                      }`}
                   >
                     {index < currentStep ? "✓" : index + 1}
                   </div>
                   <p
-                    className={`mt-2 text-xs ${
-                      index <= currentStep
+                    className={`mt-2 text-xs ${index <= currentStep
                         ? "text-blue-600 font-semibold"
                         : "text-gray-500"
-                    }`}
+                      }`}
                   >
                     {step}
                   </p>
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`flex-1 h-1 ${
-                      index < currentStep ? "bg-blue-600" : "bg-gray-200"
-                    }`}
+                    className={`flex-1 h-1 ${index < currentStep ? "bg-blue-600" : "bg-gray-200"
+                      }`}
                   ></div>
                 )}
               </React.Fragment>
