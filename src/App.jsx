@@ -496,11 +496,35 @@ const allProducts = [
 ];
 const categories = [
   "Todos",
-  "Fios e Cabos",
-  "Disjuntores",
-  "Tomadas",
-  "Iluminação",
   "Ferramentas",
+  "Materiais Elétricos",
+  "Iluminação",
+  "Materiais Hidráulicos",
+  "Tubos e Conexões",
+  "Caixas d'Água",
+  "Tijolos e Blocos",
+  "Cimento e Argamassa",
+  "Argamassa e Rejunte",
+  "Areia, Pedra e Brita",
+  "Madeiras",
+  "Portas e Janelas",
+  "Tintas e Pintura",
+  "Ferragens",
+  "Telhas e Coberturas",
+  "Fios e Cabos",
+  "Caixas de Passagem",
+  "Escadas",
+  "Andaimes",
+  "Grades e Alambrados",
+  "Pisos e Revestimentos",
+  "Forros e Drywall",
+  "Acabamentos",
+  "Fixadores",
+  "Transporte e Carrinhos",
+  "Impermeabilizantes",
+  "EPI (Segurança)",
+  "Gás e Aquecimento",
+  "Serra e Corte",
 ];
 const initialOrders = [
   {
@@ -770,26 +794,94 @@ const ProductCard = ({ product, onProductClick }) => (
   </div>
 );
 
-const FilterBar = ({ filters, setFilters }) => (
-  <div className="bg-white p-4 rounded-lg shadow-md mb-8">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
-      <div>
-        <label className="text-sm font-semibold text-gray-600 block mb-1">
-          Categoria
-        </label>
-        <select
-          value={filters.category}
-          onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-          className="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+const FilterBar = ({ filters, setFilters }) => {
+  // Filtra produtos pela categoria selecionada para montar filtros dinâmicos
+  const filteredByCategory = filters.category && filters.category !== "Todos"
+    ? allProducts.filter((p) => p.category === filters.category)
+    : allProducts;
+
+  // Opções únicas para cada filtro
+  const brands = Array.from(new Set(filteredByCategory.map((p) => p.brand))).filter(Boolean);
+  const voltages = Array.from(new Set(filteredByCategory.map((p) => p.voltage))).filter(Boolean);
+  const ratings = [5, 4, 3, 2, 1];
+
+  return (
+    <div className="bg-white p-4 rounded-lg shadow-md mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        {/* Categoria */}
+        <div>
+          <label className="text-sm font-semibold text-gray-600 block mb-1">
+            Categoria
+          </label>
+          <select
+            value={filters.category}
+            onChange={(e) => setFilters({ ...filters, category: e.target.value, brand: "", voltage: "", minRating: "" })}
+            className="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* Marca */}
+        <div>
+          <label className="text-sm font-semibold text-gray-600 block mb-1">
+            Marca
+          </label>
+          <select
+            value={filters.brand || ""}
+            onChange={(e) => setFilters({ ...filters, brand: e.target.value })}
+            className="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Todas</option>
+            {brands.map((brand) => (
+              <option key={brand} value={brand}>
+                {brand}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* Voltagem */}
+        <div>
+          <label className="text-sm font-semibold text-gray-600 block mb-1">
+            Voltagem
+          </label>
+          <select
+            value={filters.voltage || ""}
+            onChange={(e) => setFilters({ ...filters, voltage: e.target.value })}
+            className="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Todas</option>
+            {voltages.map((voltage) => (
+              <option key={voltage} value={voltage}>
+                {voltage}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* Avaliação mínima */}
+        <div>
+          <label className="text-sm font-semibold text-gray-600 block mb-1">
+            Avaliação mínima
+          </label>
+          <select
+            value={filters.minRating || ""}
+            onChange={(e) => setFilters({ ...filters, minRating: e.target.value })}
+            className="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Todas</option>
+            {ratings.map((r) => (
+              <option key={r} value={r}>
+                {r} estrelas ou mais
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-      <div>
+      {/* Preço */}
+      <div className="mt-4">
         <label className="text-sm font-semibold text-gray-600 block mb-1">
           Preço Máximo: R$ {filters.maxPrice}
         </label>
@@ -806,8 +898,8 @@ const FilterBar = ({ filters, setFilters }) => (
         />
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const HomePage = ({ onProductClick, navigateTo }) => (
   <div className="bg-gray-50">
@@ -847,10 +939,13 @@ const SearchResultsPage = ({
 
   const filteredProducts = useMemo(() => {
     let filtered = allProducts;
+
+    // Categoria
     if (filters.category && filters.category !== "Todos") {
       filtered = filtered.filter((p) => p.category === filters.category);
     }
-    // Só filtra pelo nome se o termo de busca for diferente da categoria
+
+    // Termo de busca (nome)
     if (
       filters.searchTerm &&
       (!filters.category || filters.category === "Todos" || filters.searchTerm !== filters.category)
@@ -859,7 +954,25 @@ const SearchResultsPage = ({
         p.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
       );
     }
+
+    // Marca
+    if (filters.brand && filters.brand !== "Todas") {
+      filtered = filtered.filter((p) => p.brand === filters.brand);
+    }
+
+    // Voltagem
+    if (filters.voltage && filters.voltage !== "Todas") {
+      filtered = filtered.filter((p) => p.voltage === filters.voltage);
+    }
+
+    // Preço máximo
     filtered = filtered.filter((p) => p.price <= filters.maxPrice);
+
+    // Avaliação mínima
+    if (filters.minRating) {
+      filtered = filtered.filter((p) => p.rating >= filters.minRating);
+    }
+
     return filtered;
   }, [filters]);
 
