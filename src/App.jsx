@@ -15,6 +15,7 @@ import {
   CreditCard,
   LogOut,
   ArrowLeft,
+  SlidersHorizontal, // <-- add this from lucide-react if available, or use Menu or similar
 } from "lucide-react";
 import MaterialAreas from "./MaterialAreas";
 import imgFerramentas from "./assets/gear.jpg";
@@ -34,6 +35,7 @@ const allProducts = [
     brand: "Marca D",
     voltage: "1000V",
     description: "Chave de fenda com isolamento para trabalhos elétricos seguros.",
+    disponibilidade: "Em estoque", // <-- novo campo
   },
   {
     id: 2,
@@ -45,6 +47,7 @@ const allProducts = [
     brand: "Marca E",
     voltage: "-",
     description: "Martelo de aço com cabo emborrachado para uso geral.",
+    disponibilidade: "Sob encomenda",
   },
   {
     id: 3,
@@ -56,6 +59,7 @@ const allProducts = [
     brand: "Marca G",
     voltage: "-",
     description: "Alicate universal para cortes e apertos em geral.",
+    disponibilidade: "Em estoque",
   },
   // Materiais Elétricos
   {
@@ -68,6 +72,7 @@ const allProducts = [
     brand: "Marca A",
     voltage: "750V",
     description: "Cabo flexível para instalações elétricas residenciais e comerciais. Rolo com 100 metros.",
+    disponibilidade: "Sob encomenda",
   },
   {
     id: 5,
@@ -79,6 +84,7 @@ const allProducts = [
     brand: "Marca B",
     voltage: "127/220V",
     description: "Disjuntor termomagnético para proteção de circuitos elétricos.",
+    disponibilidade: "Em estoque",
   },
   {
     id: 6,
@@ -90,6 +96,7 @@ const allProducts = [
     brand: "Marca C",
     voltage: "250V",
     description: "Tomada dupla padrão brasileiro, ideal para qualquer ambiente.",
+    disponibilidade: "Em estoque",
   },
   {
     id: 7,
@@ -101,6 +108,7 @@ const allProducts = [
     brand: "Marca B",
     voltage: "750V",
     description: "Fita isolante de alta qualidade para emendas e isolamentos.",
+    disponibilidade: "Sob encomenda",
   },
   // Iluminação
   {
@@ -113,6 +121,7 @@ const allProducts = [
     brand: "Marca A",
     voltage: "Bivolt",
     description: "Lâmpada LED de baixo consumo e alta durabilidade. Luz branca.",
+    disponibilidade: "Em estoque",
   },
   {
     id: 9,
@@ -124,6 +133,7 @@ const allProducts = [
     brand: "Marca A",
     voltage: "Bivolt",
     description: "Painel de LED quadrado para forros de gesso. Design moderno e eficiente.",
+    disponibilidade: "Sob encomenda",
   },
   // Ferramentas de Medição
   {
@@ -136,6 +146,7 @@ const allProducts = [
     brand: "Marca F",
     voltage: "-",
     description: "Trena retrátil de 5 metros com trava automática.",
+    disponibilidade: "Em estoque",
   },
   // Materiais Hidráulicos
   {
@@ -148,6 +159,7 @@ const allProducts = [
     brand: "Marca H",
     voltage: "-",
     description: "Torneira de PVC resistente para uso externo.",
+    disponibilidade: "Sob encomenda",
   },
   // Tubos e Conexões
   {
@@ -160,6 +172,7 @@ const allProducts = [
     brand: "Marca I",
     voltage: "-",
     description: "Joelho de PVC para conexões hidráulicas.",
+    disponibilidade: "Em estoque",
   },
   // Caixas d'Água
   {
@@ -172,6 +185,7 @@ const allProducts = [
     brand: "Marca J",
     voltage: "-",
     description: "Caixa d'água em polietileno, leve e resistente.",
+    disponibilidade: "Sob encomenda",
   },
   // Tijolos e Blocos
   {
@@ -184,6 +198,7 @@ const allProducts = [
     brand: "Marca K",
     voltage: "-",
     description: "Tijolo cerâmico para alvenaria estrutural.",
+    disponibilidade: "Em estoque",
   },
   {
     id: 15,
@@ -195,6 +210,7 @@ const allProducts = [
     brand: "Marca L",
     voltage: "-",
     description: "Bloco de concreto para construção de paredes.",
+    disponibilidade: "Sob encomenda",
   },
   // Cimento e Argamassa
   {
@@ -207,6 +223,7 @@ const allProducts = [
     brand: "Marca M",
     voltage: "-",
     description: "Saco de cimento para uso geral em obras.",
+    disponibilidade: "Em estoque",
   },
   // Argamassa e Rejunte
   {
@@ -219,6 +236,7 @@ const allProducts = [
     brand: "Marca N",
     voltage: "-",
     description: "Argamassa colante para assentamento de cerâmicas.",
+    disponibilidade: "Sob encomenda",
   },
   {
     id: 18,
@@ -230,6 +248,7 @@ const allProducts = [
     brand: "Marca U",
     voltage: "-",
     description: "Rejunte branco para assentamento de pisos e azulejos.",
+    disponibilidade: "Em estoque",
   },
   // Areia, Pedra e Brita
   {
@@ -242,6 +261,7 @@ const allProducts = [
     brand: "Marca O",
     voltage: "-",
     description: "Areia lavada para uso em concreto e argamassa.",
+    disponibilidade: "Sob encomenda",
   },
   {
     id: 20,
@@ -253,6 +273,7 @@ const allProducts = [
     brand: "Marca P",
     voltage: "-",
     description: "Brita para preparo de concreto e drenagem.",
+    disponibilidade: "Em estoque",
   },
   // Madeiras
   {
@@ -265,6 +286,7 @@ const allProducts = [
     brand: "Marca MadeiraSul",
     voltage: "-",
     description: "Viga de madeira para estruturas de telhado.",
+    disponibilidade: "Sob encomenda",
   },
   // Portas e Janelas
   {
@@ -277,6 +299,7 @@ const allProducts = [
     brand: "Marca Q",
     voltage: "-",
     description: "Porta lisa de madeira para ambientes internos.",
+    disponibilidade: "Em estoque",
   },
   {
     id: 23,
@@ -288,6 +311,7 @@ const allProducts = [
     brand: "Marca R",
     voltage: "-",
     description: "Janela de correr em alumínio branco.",
+    disponibilidade: "Sob encomenda",
   },
   // Tintas e Pintura
   {
@@ -300,6 +324,7 @@ const allProducts = [
     brand: "Marca T",
     voltage: "-",
     description: "Tinta acrílica para paredes internas e externas.",
+    disponibilidade: "Em estoque",
   },
   // Ferragens
   {
@@ -312,6 +337,7 @@ const allProducts = [
     brand: "Marca MetalFix",
     voltage: "-",
     description: "Dobradiça de aço para portas e janelas.",
+    disponibilidade: "Sob encomenda",
   },
   // Telhas e Coberturas
   {
@@ -324,6 +350,7 @@ const allProducts = [
     brand: "Marca S",
     voltage: "-",
     description: "Telha cerâmica para cobertura de casas.",
+    disponibilidade: "Em estoque",
   },
   // Fios e Cabos
   {
@@ -336,6 +363,7 @@ const allProducts = [
     brand: "Marca CabosBrasil",
     voltage: "-",
     description: "Cabo de aço galvanizado para uso estrutural.",
+    disponibilidade: "Sob encomenda",
   },
   // Caixas de Passagem
   {
@@ -348,6 +376,7 @@ const allProducts = [
     brand: "Marca Elétrica",
     voltage: "-",
     description: "Caixa de passagem para instalações elétricas.",
+    disponibilidade: "Em estoque",
   },
   // Escadas
   {
@@ -360,6 +389,7 @@ const allProducts = [
     brand: "Marca W",
     voltage: "-",
     description: "Escada dobrável de alumínio para uso doméstico e profissional.",
+    disponibilidade: "Sob encomenda",
   },
   // Andaimes
   {
@@ -372,6 +402,7 @@ const allProducts = [
     brand: "Marca Z",
     voltage: "-",
     description: "Andaime tubular para trabalhos em altura.",
+    disponibilidade: "Em estoque",
   },
   // Grades e Alambrados
   {
@@ -384,6 +415,7 @@ const allProducts = [
     brand: "Marca AA",
     voltage: "-",
     description: "Grade metálica para proteção de áreas externas.",
+    disponibilidade: "Sob encomenda",
   },
   // Pisos e Revestimentos
   {
@@ -396,6 +428,7 @@ const allProducts = [
     brand: "Marca BB",
     voltage: "-",
     description: "Piso cerâmico para ambientes internos.",
+    disponibilidade: "Em estoque",
   },
   // Forros e Drywall
   {
@@ -408,6 +441,7 @@ const allProducts = [
     brand: "Marca CC",
     voltage: "-",
     description: "Forro de PVC para acabamento de tetos.",
+    disponibilidade: "Sob encomenda",
   },
   // Acabamentos
   {
@@ -420,6 +454,7 @@ const allProducts = [
     brand: "Marca DD",
     voltage: "-",
     description: "Espuma expansiva para vedação e fixação.",
+    disponibilidade: "Em estoque",
   },
   // Fixadores
   {
@@ -432,6 +467,7 @@ const allProducts = [
     brand: "Marca EE",
     voltage: "-",
     description: "Chave inglesa ajustável para aperto de porcas e parafusos.",
+    disponibilidade: "Sob encomenda",
   },
   // Transporte e Carrinhos
   {
@@ -444,6 +480,7 @@ const allProducts = [
     brand: "Marca X",
     voltage: "-",
     description: "Carrinho de mão para transporte de materiais em obras.",
+    disponibilidade: "Em estoque",
   },
   // Impermeabilizantes
   {
@@ -456,6 +493,7 @@ const allProducts = [
     brand: "Marca V",
     voltage: "-",
     description: "Impermeabilizante para lajes e paredes.",
+    disponibilidade: "Sob encomenda",
   },
   // EPI (Segurança)
   {
@@ -468,6 +506,7 @@ const allProducts = [
     brand: "Marca Y",
     voltage: "-",
     description: "Capacete de proteção para uso em obras.",
+    disponibilidade: "Em estoque",
   },
   // Gás e Aquecimento
   {
@@ -480,6 +519,7 @@ const allProducts = [
     brand: "Marca Thermo",
     voltage: "Bivolt",
     description: "Aquecedor de água a gás para residências.",
+    disponibilidade: "Sob encomenda",
   },
   // Serra e Corte
   {
@@ -492,6 +532,7 @@ const allProducts = [
     brand: "Marca CorteMax",
     voltage: "-",
     description: "Disco diamantado para corte de pisos e azulejos.",
+    disponibilidade: "Em estoque",
   },
 ];
 const categories = [
@@ -795,6 +836,7 @@ const ProductCard = ({ product, onProductClick }) => (
       <p className="text-lg font-bold text-gray-900">
         R$ {product.price.toFixed(2)}
       </p>
+      <p className="text-xs text-gray-500 mt-1">{product.disponibilidade}</p>
     </div>
   </div>
 );
@@ -815,6 +857,7 @@ const FilterBar = ({ filters, setFilters }) => {
   const brands = Array.from(new Set(filteredByCategory.map((p) => p.brand))).filter(Boolean);
   const voltages = Array.from(new Set(filteredByCategory.map((p) => p.voltage))).filter(Boolean);
   const ratings = [5, 4, 3, 2, 1];
+  const disponibilidades = ["Em estoque", "Sob encomenda"];
 
   useEffect(() => {
     setFilters(f => ({
@@ -825,11 +868,11 @@ const FilterBar = ({ filters, setFilters }) => {
   }, [filters.category, dynamicMaxPrice]);
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+    <div className="bg-white p-4 rounded-lg shadow-md mb-8 relative">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end pt-2">
         {/* Categoria */}
         <div>
-          <label className="text-sm font-semibold text-gray-600 block mb-1">
+          <label className="text-sm font-semibold text-gray-600 block mb-1 pl-8 md:pl-0">
             Categoria
           </label>
           <select
@@ -841,7 +884,8 @@ const FilterBar = ({ filters, setFilters }) => {
                 brand: "",
                 voltage: "",
                 minRating: "",
-                searchTerm: "" // <-- Limpa o termo de busca ao trocar categoria
+                searchTerm: "",
+                disponibilidade: "",
               })
             }
             className="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -903,6 +947,24 @@ const FilterBar = ({ filters, setFilters }) => {
             {ratings.map((r) => (
               <option key={r} value={r}>
                 {r} estrelas ou mais
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* Disponibilidade */}
+        <div>
+          <label className="text-sm font-semibold text-gray-600 block mb-1">
+            Disponibilidade
+          </label>
+          <select
+            value={filters.disponibilidade || ""}
+            onChange={(e) => setFilters({ ...filters, disponibilidade: e.target.value })}
+            className="w-full bg-gray-100 border border-gray-200 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Todas</option>
+            {disponibilidades.map((d) => (
+              <option key={d} value={d}>
+                {d}
               </option>
             ))}
           </select>
@@ -1032,6 +1094,11 @@ const SearchResultsPage = ({
     // Avaliação mínima
     if (filters.minRating) {
       filtered = filtered.filter((p) => p.rating >= filters.minRating);
+    }
+
+    // Disponibilidade
+    if (filters.disponibilidade && filters.disponibilidade !== "") {
+      filtered = filtered.filter((p) => p.disponibilidade === filters.disponibilidade);
     }
 
     // Ordenação
